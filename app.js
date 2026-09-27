@@ -833,37 +833,43 @@ function showTreeDetail(tree, updates, trackMap) {
     "</div>" +
     '<div id="track-map"></div>';
 
-  if (typeof L !== "undefined") {
-    initTrackMap(tree, trackMap);
-  }
-
-  // Show update form (with time-based status)
+  // Show update form first — a map initialization error must never block it.
   if (updateSection) {
     renderUpdateForm(updateSection, tree, updates);
+  }
+
+  if (typeof L !== "undefined") {
+    try {
+      initTrackMap(tree);
+    } catch (mapErr) {
+      console.error("Track map error:", mapErr);
+    }
   }
 
   detailEl.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function initTrackMap(tree, trackMap) {
-  if (trackMap) {
-    trackMap.remove();
-    trackMap = null;
+var _trackMapInstance = null;
+
+function initTrackMap(tree) {
+  if (_trackMapInstance) {
+    _trackMapInstance.remove();
+    _trackMapInstance = null;
   }
   var mapEl = document.getElementById("track-map");
   if (!mapEl) return;
 
-  trackMap = L.map("track-map").setView([tree.latitude, tree.longitude], 14);
+  _trackMapInstance = L.map("track-map").setView([tree.latitude, tree.longitude], 14);
   var tileUrl =
     "https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=6b4b353b3eb74bd191c7ae4751a7a86a";
   L.tileLayer(tileUrl, {
     maxZoom: 20,
     attribution:
       'Powered by <a href="https://www.geoapify.com/" target="_blank">Geoapify</a> | <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
-  }).addTo(trackMap);
+  }).addTo(_trackMapInstance);
 
   L.marker([tree.latitude, tree.longitude])
-    .addTo(trackMap)
+    .addTo(_trackMapInstance)
     .bindPopup(
       "<strong>" + escapeHtml(tree.tree_type) + "</strong><br>" +
       escapeHtml(tree.planter_name) + "<br>" +
@@ -872,7 +878,7 @@ function initTrackMap(tree, trackMap) {
     .openPopup();
 
   setTimeout(function () {
-    trackMap.invalidateSize();
+    if (_trackMapInstance) _trackMapInstance.invalidateSize();
   }, 100);
 }
 
@@ -902,11 +908,14 @@ function renderUpdateForm(container, tree, updates) {
       formatDate(updateStatus.nextDueDate) + '.</p>' +
       '</div>';
   } else if (updateStatus.status === "due") {
+    var dueDesc = updateStatus.lastUpdateDate
+      ? 'Your last update was ' + updateStatus.daysSinceReference + ' days ago.'
+      : 'Your tree was planted ' + updateStatus.daysSinceReference + ' days ago.';
     statusHtml =
       '<div class="update-status due">' +
       '<div class="update-status-icon">🌿</div>' +
-      '<h4>Your tree is ready for an update</h4>' +
-      '<p>Please tell us how your tree is doing and upload a recent photo.</p>' +
+      '<h4>Your Tree Is Due for an Update</h4>' +
+      '<p>' + escapeHtml(dueDesc) + ' Please provide the current status of your tree so GreenRoots can track its growth.</p>' +
       '</div>';
   }
 
