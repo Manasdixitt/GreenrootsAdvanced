@@ -743,7 +743,6 @@ async function lookupTreeByUID(uid, trackMap) {
 
 function showTreeDetail(tree, updates, trackMap) {
   var detailEl = document.getElementById("tree-detail");
-  var updateSection = document.getElementById("update-section");
   if (!detailEl) return;
 
   var daysPlanted = daysBetween(tree.planting_date, new Date());
@@ -827,6 +826,7 @@ function showTreeDetail(tree, updates, trackMap) {
     '<div class="detail-item"><label>Location</label><span class="value">' + escapeHtml(tree.location_name || "Not specified") + "</span></div>" +
     '<div class="detail-item"><label>Coordinates</label><span class="value">' + tree.latitude.toFixed(4) + ", " + tree.longitude.toFixed(4) + "</span></div>" +
     "</div>" +
+    '<div class="update-section" id="update-section"></div>' +
     '<div class="detail-updates">' +
     "<h4>🌿 Growth Timeline</h4>" +
     timelineHtml +
@@ -834,6 +834,7 @@ function showTreeDetail(tree, updates, trackMap) {
     '<div id="track-map"></div>';
 
   // Show update form first — a map initialization error must never block it.
+  var updateSection = document.getElementById("update-section");
   if (updateSection) {
     renderUpdateForm(updateSection, tree, updates);
   }
@@ -914,7 +915,7 @@ function renderUpdateForm(container, tree, updates) {
     statusHtml =
       '<div class="update-status due">' +
       '<div class="update-status-icon">🌿</div>' +
-      '<h4>Your Tree Is Due for an Update</h4>' +
+      '<h4>Your tree is due for a growth update.</h4>' +
       '<p>' + escapeHtml(dueDesc) + ' Please provide the current status of your tree so GreenRoots can track its growth.</p>' +
       '</div>';
   }
