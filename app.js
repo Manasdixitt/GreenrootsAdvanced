@@ -465,9 +465,19 @@ function initRegisterForm() {
       if (result.error) throw result.error;
 
       var confirmedUID = result.data.tree_uid || treeUID;
+      var confirmedTreeId = result.data.id;
 
       formMessage.className = "form-message";
       formMessage.textContent = "";
+
+      // Fire-and-forget: trigger GreenPoints + email processing (never blocks registration)
+      try {
+        fetch(SUPABASE_URL + "/functions/v1/process-registration", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + SUPABASE_ANON_KEY },
+          body: JSON.stringify({ treeId: confirmedTreeId }),
+        }).catch(function () {});
+      } catch (e) {}
 
       var confirmation = document.createElement("div");
       confirmation.className = "success-confirmation";
@@ -475,6 +485,7 @@ function initRegisterForm() {
         '<div class="success-icon">🌳</div>' +
         '<h3>Tree Successfully Registered!</h3>' +
         '<p>Save your Tree UID — you will need it to track and update your tree.</p>' +
+        '<p class="greenpoints-earned">🌿 +100 GreenPoints earned! Check your email for confirmation.</p>' +
         '<div class="tree-ref">Your Tree UID: ' + escapeHtml(confirmedUID) + '</div>' +
         '<div class="success-actions">' +
         '<button type="button" onclick="window.location.href=\'track.html\'">🌿 Track My Tree</button>' +
@@ -1078,6 +1089,15 @@ function renderUpdateForm(container, tree, updates) {
 
       if (insertError) throw insertError;
 
+      // Fire-and-forget: trigger GreenPoints + email processing (never blocks update)
+      try {
+        fetch(SUPABASE_URL + "/functions/v1/process-update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + SUPABASE_ANON_KEY },
+          body: JSON.stringify({ treeId: tree.id }),
+        }).catch(function () {});
+      } catch (e) {}
+
       var nextDueDate = new Date(parseDateLocal(todayStr()).getTime() + UPDATE_INTERVALS.SUBSEQUENT_UPDATE_DAYS * 24 * 60 * 60 * 1000);
       var nextDueStr = nextDueDate.getFullYear() + "-" +
         String(nextDueDate.getMonth() + 1).padStart(2, "0") + "-" +
@@ -1158,6 +1178,12 @@ async function initCommunityPage() {
   if (speciesChart) renderSpeciesChart(trees);
   if (contributorsGrid) renderContributors(trees);
   if (stageBreakdown) renderStageBreakdown(trees);
+
+  // Phase 5: GreenPoints community dashboard
+  var gpSection = document.getElementById("greenpoints-section");
+  if (gpSection) {
+    renderGreenPointsCommunity(supabase);
+  }
 }
 
 function renderStageBreakdown(trees) {
@@ -1324,6 +1350,131 @@ function renderContributors(trees) {
 /* ==============================
    HELPERS
 ============================== */
+
+/* ==============================
+   GREENPOINTS COMMUNITY DASHBOARD
+============================= */
+
+var ACHIEVEMENT_DEFS = {
+  first_seed: { icon: "🌱", name: "First Seed", desc: "Registered first tree" },
+  nature_guardian: { icon: "🌿", name: "Nature Guardian", desc: "Registered 5 trees" },
+  forest_builder: { icon: "🌳", name: "Forest Builder", desc: "Registered 10 trees" },
+  growth_champion: { icon: "🌻", name: "Growth Champion", desc: "6 updates on one tree" },
+  greenroots_hero: { icon: "🏆", name: "GreenRoots Hero", desc: "Earned 1,000 GreenPoints" },
+};
+
+async function renderGreenPointsCommunity(supabase) {
+  var overviewEl = document.getElementById("greenpoints-overview");
+  var achievementsEl = document.getElementById("greenpoints-achievements");
+  var leaderboardEl = document.getElementById("greenpoints-leaderboard");
+  if (!overviewEl) return;
+
+  try {
+    var { data: balances, error: balError } = await supabase
+      .from("greenpoints_balances")
+      .select("email_key, total_points, trees_count, updates_count")
+      .order("total_points", { ascending: false });
+
+    if (balError) throw balError;
+
+    var { data: achievements, error: achError } = await supabase
+      .from("achievements")
+      .select("achievement_key, email_key")
+      .order("unlocked_at", { ascending: false });
+
+    if (achError) throw achError;
+
+    var totalPoints = 0;
+    var totalTrees = 0;
+    var totalUpdates = 0;
+    (balances || []).forEach(function (b) {
+      totalPoints += b.total_points || 0;
+      totalTrees += b.trees_count || 0;
+      totalUpdates += b.updates_count || 0;
+    });
+
+    overviewEl.innerHTML =
+      '<div class="gp-stat-card">' +
+      '<div class="gp-stat-icon">🌿</div>' +
+      '<strong>' + totalPoints + '</strong>' +
+      '<span>Total GreenPoints</span>' +
+      '</div>' +
+      '<div class="gp-stat-card">' +
+      '<div class="gp-stat-icon">🌳</div>' +
+      '<strong>' + totalTrees + '</strong>' +
+      '<span>Trees Registered</span>' +
+      '</div>' +
+      '<div class="gp-stat-card">' +
+      '<div class="gp-stat-icon">📸</div>' +
+      '<strong>' + totalUpdates + '</strong>' +
+      '<span>Growth Updates</span>' +
+      '</div>' +
+      '<div class="gp-stat-card">' +
+      '<div class="gp-stat-icon">👥</div>' +
+      '<strong>' + (balances ? balances.length : 0) + '</strong>' +
+      '<span>Active Contributors</span>' +
+      '</div>';
+
+    var achCounts = {};
+    (achievements || []).forEach(function (a) {
+      achCounts[a.achievement_key] = (achCounts[a.achievement_key] || 0) + 1;
+    });
+
+    var achHtml = "";
+    Object.keys(ACHIEVEMENT_DEFS).forEach(function (key) {
+      var def = ACHIEVEMENT_DEFS[key];
+      var count = achCounts[key] || 0;
+      var isUnlocked = count > 0;
+      achHtml +=
+        '<div class="achievement-badge' + (isUnlocked ? " unlocked" : " locked") + '">' +
+        '<div class="badge-icon">' + def.icon + '</div>' +
+        '<div class="badge-info">' +
+        '<strong>' + escapeHtml(def.name) + '</strong>' +
+        '<span>' + escapeHtml(def.desc) + '</span>' +
+        (isUnlocked ? '<em>' + count + ' contributor' + (count > 1 ? "s" : "") + '</em>' : '<em>Not yet unlocked</em>') +
+        '</div>' +
+        '</div>';
+    });
+
+    var achGrid = document.getElementById("achievements-grid");
+    if (achGrid) achGrid.innerHTML = achHtml;
+    if (achievementsEl) achievementsEl.style.display = "block";
+
+    if (balances && balances.length > 0) {
+      var top = balances.slice(0, 5);
+      var medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+      var lbHtml = top
+        .map(function (b, i) {
+          var displayName = anonymizeEmail(b.email_key);
+          return (
+            '<div class="leaderboard-row">' +
+            '<span class="leaderboard-rank">' + (medals[i] || (i + 1)) + '</span>' +
+            '<span class="leaderboard-name">' + escapeHtml(displayName) + '</span>' +
+            '<span class="leaderboard-points">' + b.total_points + ' 🌿</span>' +
+            '<span class="leaderboard-stats">' + b.trees_count + ' trees · ' + b.updates_count + ' updates</span>' +
+            '</div>'
+          );
+        })
+        .join('');
+      var lbList = document.getElementById('leaderboard-list');
+      if (lbList) lbList.innerHTML = lbHtml;
+      if (leaderboardEl) leaderboardEl.style.display = 'block';
+    }
+  } catch (err) {
+    console.error('Failed to load GreenPoints data:', err);
+    overviewEl.innerHTML =
+      '<div class="track-loading">GreenPoints data will appear here once trees are registered.</div>';
+  }
+}
+
+function anonymizeEmail(email) {
+  if (!email) return 'Anonymous';
+  var parts = email.split('@');
+  if (parts.length !== 2) return 'Anonymous';
+  var name = parts[0];
+  if (name.length <= 2) return name[0] + '***@' + parts[1];
+  return name[0] + '***@' + parts[1];
+}
 
 function escapeHtml(str) {
   if (str === null || str === undefined) return "";

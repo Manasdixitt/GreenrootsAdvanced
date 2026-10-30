@@ -1,0 +1,21 @@
+{
+  "projectId": "71444685",
+  "functions": {
+    "process-registration": {
+      "hasChanged": false,
+      "hash": "045a1cd51d1cf02dba9fe9dbf4f553e885031af154843ffa5f81743104c2ac56"
+    },
+    "process-reminders": {
+      "hasChanged": false,
+      "hash": "10963ef31948d419370e68e2caaf021774b77cd31ba0dc3c68cbcab6f119cc0f"
+    },
+    "process-update": {
+      "hasChanged": false,
+      "hash": "f874eae7179e7070fba17d5479451a045cde81d5bc3e0f611ca0581b6326a633"
+    },
+    "send-email": {
+      "hasChanged": false,
+      "hash": "a88f7751ad2395615bbc259dbdd67d6f54ae073a0a7d80257c07f4e1d7575054"
+    }
+  }
+}
