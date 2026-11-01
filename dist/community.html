@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community | GreenRoots</title>
+    <meta name="description" content="See the GreenRoots community in action — trees planted, people involved, and locations reached.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" crossorigin href="/assets/style-CsUvlYOs.css">
+</head>
+<body>
+<header>
+    <nav>
+        <h1><a href="index.html">🌳 GreenRoots</a></h1>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="track.html">Track Growth</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+    <p class="tagline">🌿 Restoring Nature, One Tree at a Time</p>
+</header>
+
+<main class="community-page">
+    <div class="page-header">
+        <p class="mission-tag">COMMUNITY</p>
+        <h2>🤝 Together We Grow</h2>
+        <p>Every tree planted is a collective effort. See how our community is making an impact across India.</p>
+    </div>
+
+    <section class="community-stats">
+        <div class="community-stat-card">
+            <div class="community-stat-icon">🌳</div>
+            <strong class="counter" data-target="0">0</strong>
+            <span>Trees Planted</span>
+        </div>
+        <div class="community-stat-card">
+            <div class="community-stat-icon">👥</div>
+            <strong class="counter" data-target="0" data-suffix="+">0</strong>
+            <span>People Involved</span>
+        </div>
+        <div class="community-stat-card">
+            <div class="community-stat-icon">📍</div>
+            <strong class="counter" data-target="0">0</strong>
+            <span>Locations Reached</span>
+        </div>
+        <div class="community-stat-card">
+            <div class="community-stat-icon">🌿</div>
+            <strong class="counter" data-target="0" data-suffix="+">0</strong>
+            <span>Growth Updates</span>
+        </div>
+    </section>
+
+    <section class="stage-breakdown" id="stage-breakdown" style="display:none;">
+    </section>
+
+    <section class="community-activity">
+        <h2>Recent Activity</h2>
+        <div class="activity-feed" id="activity-feed">
+            <div class="track-loading">Loading activity...</div>
+        </div>
+    </section>
+
+    <section class="community-species">
+        <h2>Popular Tree Species</h2>
+        <div class="species-bar-chart" id="species-chart">
+            <div class="track-loading">Loading species data...</div>
+        </div>
+    </section>
+
+    <section class="community-contributors">
+        <h2>Top Contributors</h2>
+        <div class="contributors-grid" id="contributors-grid">
+            <div class="track-loading">Loading contributors...</div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Be Part of the Movement</h2>
+            <p>Your tree could be the next one on this page.</p>
+            <button onclick="window.location.href='register.html'">🌱 Plant a Tree</button>
+        </div>
+    </section>
+
+    <section class="greenpoints-section" id="greenpoints-section">
+        <div class="greenpoints-header">
+            <p class="mission-tag">GREENPOINTS</p>
+            <h2>🌿 Community GreenPoints</h2>
+            <p>Every tree planted and every update submitted earns GreenPoints. Together, we're growing a greener future.</p>
+        </div>
+        <div class="greenpoints-overview" id="greenpoints-overview">
+            <div class="track-loading">Loading GreenPoints data...</div>
+        </div>
+        <div class="greenpoints-achievements" id="greenpoints-achievements" style="display:none;">
+            <h3>🏆 Community Achievements</h3>
+            <div class="achievements-grid" id="achievements-grid"></div>
+        </div>
+        <div class="greenpoints-leaderboard" id="greenpoints-leaderboard" style="display:none;">
+            <h3>🌟 Top GreenPoint Earners</h3>
+            <div class="leaderboard-list" id="leaderboard-list"></div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>🌳 GreenRoots</h3>
+            <p>Restoring Nature, One Tree at a Time</p>
+            <p class="footer-desc">A platform for planting, registering, and tracking trees across India.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="register.html">Register Your Tree</a></li>
+                <li><a href="track.html">Track Growth</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Get Involved</h4>
+            <ul>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="about.html">Our Mission</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2024 GreenRoots. Growing a greener future together. · Created by Manas Dixit</p>
+    </div>
+</footer>
+
+<script src="supabase-client.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

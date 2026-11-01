@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500" role="img" aria-label="A realistic green tree with full canopy and sturdy trunk">
+  <defs>
+    <!-- Canopy gradient -->
+    <radialGradient id="canopyGrad" cx="45%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#7cb342"/>
+      <stop offset="40%" stop-color="#558b2f"/>
+      <stop offset="100%" stop-color="#33691e"/>
+    </radialGradient>
+    <radialGradient id="canopyHighlight" cx="35%" cy="25%" r="50%">
+      <stop offset="0%" stop-color="#aed581" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#aed581" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="canopyShadow" cx="60%" cy="70%" r="55%">
+      <stop offset="0%" stop-color="#1b5e20" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#1b5e20" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Trunk gradient -->
+    <linearGradient id="trunkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6d4c2f"/>
+      <stop offset="30%" stop-color="#8d6e52"/>
+      <stop offset="50%" stop-color="#a0826a"/>
+      <stop offset="70%" stop-color="#8d6e52"/>
+      <stop offset="100%" stop-color="#5d3e22"/>
+    </linearGradient>
+    <linearGradient id="trunkShadow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3e2723" stop-opacity="0.4"/>
+      <stop offset="50%" stop-color="#3e2723" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#3e2723" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Ground shadow -->
+    <radialGradient id="groundShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1b5e20" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#1b5e20" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Ground shadow -->
+  <ellipse cx="200" cy="470" rx="120" ry="18" fill="url(#groundShadow)"/>
+
+  <!-- Trunk -->
+  <path d="M 178 470
+           Q 172 420 175 370
+           Q 178 320 182 280
+           Q 185 250 190 230
+           L 210 230
+           Q 215 250 218 280
+           Q 222 320 225 370
+           Q 228 420 222 470
+           Z"
+        fill="url(#trunkGrad)"/>
+  <path d="M 178 470
+           Q 172 420 175 370
+           Q 178 320 182 280
+           Q 185 250 190 230
+           L 210 230
+           Q 215 250 218 280
+           Q 222 320 225 370
+           Q 228 420 222 470
+           Z"
+        fill="url(#trunkShadow)"/>
+
+  <!-- Trunk texture lines -->
+  <path d="M 185 460 Q 183 400 186 340 Q 188 280 192 240" stroke="#5d3e22" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <path d="M 200 465 Q 198 390 200 320 Q 202 270 205 235" stroke="#5d3e22" stroke-width="1.5" fill="none" opacity="0.3"/>
+  <path d="M 213 460 Q 215 400 212 340 Q 210 280 208 240" stroke="#5d3e22" stroke-width="1.5" fill="none" opacity="0.4"/>
+
+  <!-- Branches -->
+  <path d="M 195 280 Q 165 250 130 235" stroke="#6d4c2f" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M 205 270 Q 235 240 270 230" stroke="#6d4c2f" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M 198 250 Q 185 220 170 200" stroke="#6d4c2f" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M 202 250 Q 215 220 228 200" stroke="#6d4c2f" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Main canopy — layered organic shapes -->
+  <!-- Back layer (darkest) -->
+  <ellipse cx="200" cy="150" rx="115" ry="100" fill="#33691e" opacity="0.7"/>
+  <ellipse cx="140" cy="170" rx="60" ry="55" fill="#33691e" opacity="0.6"/>
+  <ellipse cx="260" cy="170" rx="60" ry="55" fill="#33691e" opacity="0.6"/>
+
+  <!-- Mid layer -->
+  <ellipse cx="200" cy="130" rx="105" ry="95" fill="url(#canopyGrad)"/>
+  <ellipse cx="145" cy="155" rx="55" ry="50" fill="url(#canopyGrad)"/>
+  <ellipse cx="255" cy="155" rx="55" ry="50" fill="url(#canopyGrad)"/>
+  <ellipse cx="200" cy="185" rx="80" ry="65" fill="url(#canopyGrad)"/>
+
+  <!-- Front layer (lighter, more detail) -->
+  <ellipse cx="175" cy="110" rx="50" ry="48" fill="url(#canopyGrad)" opacity="0.9"/>
+  <ellipse cx="225" cy="110" rx="50" ry="48" fill="url(#canopyGrad)" opacity="0.9"/>
+  <ellipse cx="200" cy="90" rx="45" ry="42" fill="url(#canopyGrad)" opacity="0.85"/>
+  <ellipse cx="160" cy="145" rx="40" ry="38" fill="url(#canopyGrad)" opacity="0.85"/>
+  <ellipse cx="240" cy="145" rx="40" ry="38" fill="url(#canopyGrad)" opacity="0.85"/>
+
+  <!-- Highlights -->
+  <ellipse cx="200" cy="130" rx="105" ry="95" fill="url(#canopyHighlight)"/>
+  <ellipse cx="175" cy="110" rx="50" ry="48" fill="url(#canopyHighlight)" opacity="0.7"/>
+  <ellipse cx="200" cy="90" rx="45" ry="42" fill="url(#canopyHighlight)" opacity="0.6"/>
+
+  <!-- Shadows on canopy -->
+  <ellipse cx="200" cy="130" rx="105" ry="95" fill="url(#canopyShadow)"/>
+  <ellipse cx="200" cy="185" rx="80" ry="65" fill="url(#canopyShadow)"/>
+
+  <!-- Leaf detail clusters (small organic bumps) -->
+  <circle cx="155" cy="100" r="18" fill="#558b2f" opacity="0.5"/>
+  <circle cx="245" cy="100" r="18" fill="#558b2f" opacity="0.5"/>
+  <circle cx="130" cy="140" r="15" fill="#558b2f" opacity="0.4"/>
+  <circle cx="270" cy="140" r="15" fill="#558b2f" opacity="0.4"/>
+  <circle cx="200" cy="70" r="16" fill="#558b2f" opacity="0.4"/>
+  <circle cx="175" cy="175" r="14" fill="#558b2f" opacity="0.35"/>
+  <circle cx="225" cy="175" r="14" fill="#558b2f" opacity="0.35"/>
+
+  <!-- Small highlight leaves -->
+  <circle cx="165" cy="85" r="10" fill="#aed581" opacity="0.5"/>
+  <circle cx="210" cy="75" r="9" fill="#aed581" opacity="0.45"/>
+  <circle cx="235" cy="90" r="10" fill="#aed581" opacity="0.4"/>
+
+  <!-- Root flare at base -->
+  <path d="M 178 465 Q 165 462 155 468 Q 160 470 172 470" fill="url(#trunkGrad)" opacity="0.8"/>
+  <path d="M 222 465 Q 235 462 245 468 Q 240 470 228 470" fill="url(#trunkGrad)" opacity="0.8"/>
+</svg>

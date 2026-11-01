@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Your Tree | GreenRoots</title>
+    <meta name="description" content="Register your tree with GreenRoots and start tracking its journey toward a greener future.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/style-CsUvlYOs.css">
+</head>
+<body>
+<header>
+    <nav>
+        <h1><a href="index.html">🌳 GreenRoots</a></h1>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="track.html">Track Growth</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+    <p class="tagline">🌿 Restoring Nature, One Tree at a Time</p>
+</header>
+
+<main class="register-page">
+    <div class="register-header">
+        <p class="mission-tag">REGISTER YOUR TREE</p>
+        <h2>🌱 Give Your Tree a Digital Identity</h2>
+        <p>Register your tree with GreenRoots and start tracking its journey toward a greener future.</p>
+    </div>
+
+    <form class="tree-form" id="tree-form" novalidate>
+        <div class="form-group">
+            <label for="planter-name">Your Name <span class="required">*</span></label>
+            <input type="text" id="planter-name" placeholder="Enter your name" required>
+            <span class="field-error" id="error-planter-name"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="planter-email">Email Address <span class="required">*</span></label>
+            <input type="email" id="planter-email" placeholder="you@example.com" required>
+            <span class="field-error" id="error-planter-email"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="tree-type">Tree Type <span class="required">*</span></label>
+            <input type="text" id="tree-type" placeholder="e.g. Neem, Mango, Peepal" required>
+            <span class="field-error" id="error-tree-type"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="planting-date">Planting Date <span class="required">*</span></label>
+            <input type="date" id="planting-date" required>
+            <span class="field-error" id="error-planting-date"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Planting Location <span class="required">*</span></label>
+            <button type="button" class="location-button">
+                📍 Use My Location
+            </button>
+            <p class="location-status">Location not selected yet</p>
+            <p class="or-text">OR</p>
+            <input type="text" class="manual-location" placeholder="Search for a planting location" autocomplete="off" aria-label="Search for planting location">
+            <div class="location-suggestions"></div>
+            <input type="hidden" class="location-method" value="">
+            <input type="hidden" class="location-lat" value="">
+            <input type="hidden" class="location-lng" value="">
+            <input type="hidden" class="location-name-hidden" value="">
+            <span class="field-error" id="error-location"></span>
+            <div id="map" role="application" aria-label="Map showing planting location"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="tree-photo">Tree Photo <span class="required">*</span></label>
+            <input type="file" id="tree-photo" accept="image/jpeg,image/png,image/webp" required>
+            <p class="photo-hint">Required — share a photo of your tree (JPG, PNG, or WebP, max 5MB)</p>
+            <span class="field-error" id="error-tree-photo"></span>
+        </div>
+
+        <div class="form-message" id="form-message"></div>
+
+        <button type="submit" id="submit-btn">🌳 Register My Tree</button>
+    </form>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>🌳 GreenRoots</h3>
+            <p>Restoring Nature, One Tree at a Time</p>
+            <p class="footer-desc">A platform for planting, registering, and tracking trees across India.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="register.html">Register Your Tree</a></li>
+                <li><a href="track.html">Track Growth</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Get Involved</h4>
+            <ul>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="about.html">Our Mission</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2024 GreenRoots. Growing a greener future together. · Created by Manas Dixit</p>
+    </div>
+</footer>
+
+<script src="supabase-client.js"></script>
+<script src="script.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
