@@ -5,7 +5,7 @@ import { cpSync } from "fs";
 const copyStaticScripts = () => ({
   name: "copy-static-scripts",
   closeBundle: () => {
-    const files = ["supabase-client.js", "app.js", "script.js"];
+    const files = ["app.js", "script.js"];
     for (const file of files) {
       cpSync(resolve(__dirname, file), resolve(__dirname, "dist", file));
     }

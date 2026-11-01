@@ -130,7 +130,7 @@ function todayStr() {
 
 async function fetchStats() {
   try {
-    const supabase = await getSupabaseClient();
+    const supabase = await window.getSupabaseClient();
     const [{ count: treeCount }, { count: updateCount }] = await Promise.all([
       supabase.from("trees").select("*", { count: "exact", head: true }),
       supabase.from("tree_updates").select("*", { count: "exact", head: true }),
@@ -245,7 +245,7 @@ function generateTreeUID() {
 var TREE_PHOTO_BUCKET = "tree-photos";
 
 async function uploadTreePhoto(file, prefix) {
-  var supabase = await getSupabaseClient();
+  var supabase = await window.getSupabaseClient();
   var ext = file.name.split(".").pop().toLowerCase();
   var fileName = prefix + "-" + Date.now() + "-" + Math.random().toString(36).substring(2, 8) + "." + ext;
   var filePath = prefix + "/" + fileName;
@@ -438,7 +438,7 @@ function initRegisterForm() {
     formMessage.textContent = "Uploading photo & saving your tree...";
 
     try {
-      var supabase = await getSupabaseClient();
+      var supabase = await window.getSupabaseClient();
 
       var treeUID = generateTreeUID();
       var photoFile = photoInput.files[0];
@@ -472,9 +472,9 @@ function initRegisterForm() {
 
       // Fire-and-forget: trigger GreenPoints + email processing (never blocks registration)
       try {
-        fetch(SUPABASE_URL + "/functions/v1/process-registration", {
+        fetch(window.SUPABASE_URL + "/functions/v1/process-registration", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + SUPABASE_ANON_KEY },
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + window.SUPABASE_ANON_KEY },
           body: JSON.stringify({ treeId: confirmedTreeId }),
         }).catch(function () {});
       } catch (e) {}
@@ -614,7 +614,7 @@ function initContactForm() {
     formMessage.textContent = "Sending your message...";
 
     try {
-      var supabase = await getSupabaseClient();
+      var supabase = await window.getSupabaseClient();
       var { error } = await supabase.from("contact_messages").insert({
         name: nameInput.value.trim(),
         email: email,
@@ -724,7 +724,7 @@ function initTrackPage() {
 
 async function lookupTreeByUID(uid, trackMap) {
   try {
-    var supabase = await getSupabaseClient();
+    var supabase = await window.getSupabaseClient();
     var { data: tree, error: treeError } = await supabase
       .from("trees")
       .select("*")
@@ -1067,7 +1067,7 @@ function renderUpdateForm(container, tree, updates) {
     msgEl.textContent = "Uploading photo & saving your update...";
 
     try {
-      var supabase = await getSupabaseClient();
+      var supabase = await window.getSupabaseClient();
 
       var photoFile = photoInput.files[0];
       msgEl.textContent = "Uploading your update photo...";
@@ -1091,9 +1091,9 @@ function renderUpdateForm(container, tree, updates) {
 
       // Fire-and-forget: trigger GreenPoints + email processing (never blocks update)
       try {
-        fetch(SUPABASE_URL + "/functions/v1/process-update", {
+        fetch(window.SUPABASE_URL + "/functions/v1/process-update", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + SUPABASE_ANON_KEY },
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + window.SUPABASE_ANON_KEY },
           body: JSON.stringify({ treeId: tree.id }),
         }).catch(function () {});
       } catch (e) {}
@@ -1149,7 +1149,7 @@ async function initCommunityPage() {
 
   var trees = [];
   try {
-    var supabase = await getSupabaseClient();
+    var supabase = await window.getSupabaseClient();
     var { data, error } = await supabase
       .from("trees")
       .select("*")
