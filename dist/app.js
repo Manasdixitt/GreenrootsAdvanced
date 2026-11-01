@@ -859,6 +859,95 @@ function showTreeDetail(tree, updates, trackMap) {
   }
 
   detailEl.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  if (tree.planter_email) {
+    renderMyGreenPoints(tree.planter_email);
+  } else {
+    var gpEl = document.getElementById("my-greenpoints");
+    if (gpEl) gpEl.style.display = "none";
+  }
+}
+
+async function renderMyGreenPoints(email) {
+  var gpEl = document.getElementById("my-greenpoints");
+  if (!gpEl) return;
+
+  var normalizedEmail = email.toLowerCase().trim();
+
+  try {
+    var supabase = await window.getSupabaseClient();
+    var { data: balance, error: balError } = await supabase
+      .from("greenpoints_balances")
+      .select("total_points, trees_count, updates_count")
+      .eq("email_key", normalizedEmail)
+      .maybeSingle();
+
+    if (balError) throw balError;
+
+    var { data: userAchievements, error: achError } = await supabase
+      .from("achievements")
+      .select("achievement_key, unlocked_at")
+      .eq("email_key", normalizedEmail)
+      .order("unlocked_at", { ascending: false });
+
+    if (achError) throw achError;
+
+    var unlockedKeys = {};
+    (userAchievements || []).forEach(function (a) {
+      unlockedKeys[a.achievement_key] = true;
+    });
+
+    var totalPoints = balance ? balance.total_points : 0;
+    var treesCount = balance ? balance.trees_count : 0;
+    var updatesCount = balance ? balance.updates_count : 0;
+
+    var achHtml = "";
+    Object.keys(ACHIEVEMENT_DEFS).forEach(function (key) {
+      var def = ACHIEVEMENT_DEFS[key];
+      var isUnlocked = !!unlockedKeys[key];
+      achHtml +=
+        '<div class="achievement-badge' + (isUnlocked ? " unlocked" : " locked") + '">' +
+        '<div class="badge-icon">' + def.icon + '</div>' +
+        '<div class="badge-info">' +
+        '<strong>' + escapeHtml(def.name) + '</strong>' +
+        '<span>' + escapeHtml(def.desc) + '</span>' +
+        (isUnlocked ? '<em>Unlocked</em>' : '<em>Locked</em>') +
+        '</div>' +
+        '</div>';
+    });
+
+    gpEl.innerHTML =
+      '<div class="my-gp-header">' +
+      '<h3>My GreenPoints</h3>' +
+      '<p>Your personal contribution to a greener planet</p>' +
+      '</div>' +
+      '<div class="my-gp-stats">' +
+      '<div class="gp-stat-card">' +
+      '<div class="gp-stat-icon">🌿</div>' +
+      '<strong>' + totalPoints + '</strong>' +
+      '<span>Total GreenPoints</span>' +
+      '</div>' +
+      '<div class="gp-stat-card">' +
+      '<div class="gp-stat-icon">🌳</div>' +
+      '<strong>' + treesCount + '</strong>' +
+      '<span>Trees Registered</span>' +
+      '</div>' +
+      '<div class="gp-stat-card">' +
+      '<div class="gp-stat-icon">📸</div>' +
+      '<strong>' + updatesCount + '</strong>' +
+      '<span>Growth Updates</span>' +
+      '</div>' +
+      '</div>' +
+      '<div class="my-gp-achievements">' +
+      '<h4>🏆 Achievements</h4>' +
+      '<div class="achievements-grid">' + achHtml + '</div>' +
+      '</div>';
+
+    gpEl.style.display = "block";
+  } catch (err) {
+    console.error("Failed to load personal GreenPoints:", err);
+    gpEl.style.display = "none";
+  }
 }
 
 var _trackMapInstance = null;

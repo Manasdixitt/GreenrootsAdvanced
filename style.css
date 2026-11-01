@@ -2553,3 +2553,71 @@ textarea:focus-visible {
     }
 }
 
+/* My GreenPoints (track page — per-user panel) */
+.my-greenpoints {
+    max-width: 800px;
+    margin: 24px auto;
+    padding: 32px 24px;
+    background: linear-gradient(135deg, #f1f8e9, #e8f5e9);
+    border-radius: 16px;
+    border: 1px solid #c8e6c9;
+}
+
+.my-gp-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.my-gp-header h3 {
+    font-size: 28px;
+    color: #2e7d32;
+    margin: 0 0 8px;
+    font-weight: 700;
+}
+
+.my-gp-header p {
+    color: #558b2f;
+    font-size: 15px;
+    margin: 0;
+}
+
+.my-gp-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.my-gp-achievements h4 {
+    font-size: 20px;
+    color: #2e7d32;
+    margin: 0 0 16px;
+    text-align: center;
+}
+
+.my-gp-achievements .achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+@media (max-width: 768px) {
+    .my-greenpoints {
+        padding: 24px 16px;
+        margin: 16px auto;
+    }
+
+    .my-gp-header h3 {
+        font-size: 22px;
+    }
+
+    .my-gp-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .my-gp-achievements .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
