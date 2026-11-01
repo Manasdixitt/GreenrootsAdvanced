@@ -18,7 +18,7 @@
 - Data visualizations present: Recent Activity feed, Popular Tree Species chart, Top Contributors grid, growth stage breakdown.
 - Content is data-driven from live database tables (`trees`, `tree_updates`) — no hardcoded display data.
 - Supports growth timeline views per tree with chronological updates.
-- Footer present on all pages with consistent structure — now includes creator credit.
+- Footer present on all pages with consistent structure — includes creator credit.
 
 ## Decisions, constraints & rationale
 
@@ -30,10 +30,11 @@
 - Multi-page static site: `index.html`, `community.html`, `register.html`, `contact.html`, etc. — no framework.
 - Added `package.json` and `vite.config.js` to fix deployment build pipeline; Vite configured for multi-page entry points.
 - Scripts use external script references; `type` field added to package.json to clear ESM warnings.
-- **Vite moved from `devDependencies` to `dependencies`** — deployment environment only installs production dependencies, so dev deps weren't available during build. This was causing the `command not found: vite` error.
-- Build verified working after dependency move.
+- **Vite moved from `devDependencies` to `dependencies`** — deployment environment only installs production dependencies.
+- **Vite build copies plain JS files**: Vite doesn't copy non-module scripts (`supabase-client.js`, `app.js`, `script.js`) into `dist/` by default. Build config updated to include these files so database connection works on published site.
+- **"Made in Bolt" badge**: appears automatically on free Bolt hosting plan; cannot be removed from code — requires upgrading to a paid Bolt plan.
 - **Contact email**: changed from `hello@greenroots.org` to `dixit.manas22@gmail.com` on contact page.
-- **Creator credit**: "Created by Manas Dixit" added to footer across all pages (Home, About, Register, Track Growth, Community, Contact).
+- **Creator credit**: "Created by Manas Dixit" in footer across all pages.
 - Site is ready for publishing via Bolt Cloud (user manually triggers publish).
 
 ## Open questions & assumptions
@@ -43,3 +44,4 @@
 - Assumed growth stages and update categories based on existing schema — actual taxonomy not yet confirmed.
 - Whether user authentication/accounts are part of the platform or if entries are submitted anonymously.
 - Whether the contact email should remain personal Gmail or be changed to a domain email later.
+- User may want to upgrade to paid Bolt plan to remove "Made in Bolt" badge.

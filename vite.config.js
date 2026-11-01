@@ -1,5 +1,16 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
+import { cpSync } from "fs";
+
+const copyStaticScripts = () => ({
+  name: "copy-static-scripts",
+  closeBundle: () => {
+    const files = ["supabase-client.js", "app.js", "script.js"];
+    for (const file of files) {
+      cpSync(resolve(__dirname, file), resolve(__dirname, "dist", file));
+    }
+  },
+});
 
 export default defineConfig({
   root: ".",
@@ -15,4 +26,5 @@ export default defineConfig({
       },
     },
   },
+  plugins: [copyStaticScripts()],
 });
