@@ -17,7 +17,7 @@
     "india"
   ],
   "license": "UNLICENSED",
-  "devDependencies": {
+  "dependencies": {
     "vite": "^8.3.5"
   }
 }
