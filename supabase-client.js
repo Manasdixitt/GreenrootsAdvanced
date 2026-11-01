@@ -5,26 +5,23 @@
   in browser-side code. RLS policies enforce what the public can do.
 */
 
-import { createClient } from "@supabase/supabase-js";
+window.SUPABASE_URL = "https://uwjkmtmprmblbhkwrdqe.supabase.co";
+window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3amttdG1wcm1ibGJoa3dyZHFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyNjE1OTcsImV4cCI6MjEwNTgzNzU5N30.U6SjePx1xHJ8gnXt3uuXc5grWBE9t0FN5b2Sw2LItDY";
 
-const SUPABASE_URL = "https://uwjkmtmprmblbhkwrdqe.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3amttdG1wcm1ibGJoa3dyZHFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyNjE1OTcsImV4cCI6MjEwNTgzNzU5N30.U6SjePx1xHJ8gnXt3uuXc5grWBE9t0FN5b2Sw2LItDY";
+var _supabaseClient = null;
 
-window.SUPABASE_URL = SUPABASE_URL;
-window.SUPABASE_ANON_KEY = SUPABASE_ANON_KEY;
-
-let _supabaseClient = null;
-
-async function getSupabaseClient() {
+window.getSupabaseClient = async function () {
   if (_supabaseClient) return _supabaseClient;
 
-  _supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  var mod = await import(
+    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"
+  );
+
+  _supabaseClient = mod.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY, {
     auth: {
       persistSession: false
     }
   });
 
   return _supabaseClient;
-}
-
-window.getSupabaseClient = getSupabaseClient;
+};
