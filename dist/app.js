@@ -475,7 +475,7 @@ function initRegisterForm() {
         fetch(window.SUPABASE_URL + "/functions/v1/process-registration", {
           method: "POST",
           headers: { "Content-Type": "application/json", "Authorization": "Bearer " + window.SUPABASE_ANON_KEY },
-          body: JSON.stringify({ treeId: confirmedTreeId }),
+          body: JSON.stringify({ treeId: confirmedTreeId, siteUrl: window.location.origin + window.location.pathname.replace(/[^\/]*$/, "") }),
         }).catch(function () {});
       } catch (e) {}
 
@@ -1183,7 +1183,7 @@ function renderUpdateForm(container, tree, updates) {
         fetch(window.SUPABASE_URL + "/functions/v1/process-update", {
           method: "POST",
           headers: { "Content-Type": "application/json", "Authorization": "Bearer " + window.SUPABASE_ANON_KEY },
-          body: JSON.stringify({ treeId: tree.id }),
+          body: JSON.stringify({ treeId: tree.id, siteUrl: window.location.origin + window.location.pathname.replace(/[^\/]*$/, "") }),
         }).catch(function () {});
       } catch (e) {}
 

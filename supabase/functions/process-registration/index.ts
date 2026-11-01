@@ -153,7 +153,7 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    const { treeId } = await req.json();
+    const { treeId, siteUrl } = await req.json();
 
     if (!treeId) {
       return new Response(
@@ -186,7 +186,7 @@ Deno.serve(async (req: Request) => {
     }
 
     const eventId = `registration_${tree.id}`;
-    const trackUrl = `https://uwjkmtmprmblbhkwrdqe.supabase.co/track.html`;
+    const trackUrl = (siteUrl || SUPABASE_URL).replace(/\/$/, "") + "/track.html";
 
     // 1. Award 100 GreenPoints (idempotent)
     const { data: newBalance, error: awardError } = await supabase.rpc("award_greenpoints", {

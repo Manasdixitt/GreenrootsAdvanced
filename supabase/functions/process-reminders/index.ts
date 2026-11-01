@@ -61,7 +61,8 @@ Deno.serve(async (req: Request) => {
     }
 
     let sentCount = 0;
-    const trackUrl = `https://uwjkmtmprmblbhkwrdqe.supabase.co/track.html`;
+    const origin = req.headers.get("origin") || req.headers.get("referer") || "";
+    const trackUrl = origin ? origin.replace(/\/$/, "") + "/track.html" : `${SUPABASE_URL}/track.html`;
 
     for (const reminder of reminders) {
       const tree = reminder.trees as Record<string, unknown> | null;

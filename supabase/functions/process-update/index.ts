@@ -48,7 +48,7 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    const { treeId, updateId } = await req.json();
+    const { treeId, updateId, siteUrl } = await req.json();
 
     if (!treeId) {
       return new Response(
@@ -161,7 +161,7 @@ Deno.serve(async (req: Request) => {
 
     // 4. Send update confirmation email
     const nextDueDate = addDays(todayStr(), SUBSEQUENT_UPDATE_DAYS);
-    const trackUrl = `https://uwjkmtmprmblbhkwrdqe.supabase.co/track.html`;
+    const trackUrl = (siteUrl || SUPABASE_URL).replace(/\/$/, "") + "/track.html";
 
     await fetch(`${SUPABASE_URL}/functions/v1/send-email`, {
       method: "POST",

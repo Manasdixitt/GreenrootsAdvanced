@@ -3,15 +3,15 @@
   "functions": {
     "process-registration": {
       "hasChanged": false,
-      "hash": "045a1cd51d1cf02dba9fe9dbf4f553e885031af154843ffa5f81743104c2ac56"
+      "hash": "eda2e4ed453deee0dc2673c3490d30b260c83748120d7a56a001fcc7141874d2"
     },
     "process-reminders": {
       "hasChanged": false,
-      "hash": "10963ef31948d419370e68e2caaf021774b77cd31ba0dc3c68cbcab6f119cc0f"
+      "hash": "750f66338fbfa910325a6102139147ba412c816bbf1d24439bbbe73a20b1e66c"
     },
     "process-update": {
       "hasChanged": false,
-      "hash": "f874eae7179e7070fba17d5479451a045cde81d5bc3e0f611ca0581b6326a633"
+      "hash": "adade6ca578f50ea401cb91f678bc9f83e72d1e1310e2f9a68c59732b7823398"
     },
     "send-email": {
       "hasChanged": false,
