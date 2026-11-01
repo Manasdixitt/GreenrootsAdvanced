@@ -1,0 +1,23 @@
+{
+  "name": "greenroots",
+  "version": "1.0.0",
+  "description": "GreenRoots — a tree-planting community platform for tracking and showcasing environmental impact across India.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "greenroots",
+    "trees",
+    "community",
+    "environment",
+    "india"
+  ],
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "vite": "^8.3.5"
+  }
+}

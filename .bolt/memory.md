@@ -26,6 +26,9 @@
 - Decision: all seed data inserted via database, not code — Community page reads live data automatically, so no code changes needed.
 - Schema uses two key tables: `trees` (registrations) and `tree_updates` (growth milestones).
 - 49 distinct Indian locations used across entries for geographic diversity.
+- Multi-page static site: `index.html`, `community.html`, `register.html`, etc. — no framework.
+- Added `package.json` and `vite.config.js` to fix deployment build pipeline; Vite configured for multi-page entry points.
+- Scripts use external script references; `type` field added to package.json to clear ESM warnings.
 
 ## Open questions & assumptions
 
