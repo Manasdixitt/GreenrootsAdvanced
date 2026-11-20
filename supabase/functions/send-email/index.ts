@@ -10,6 +10,7 @@ const corsHeaders = {
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") || "";
+const EMAIL_FROM = Deno.env.get("EMAIL_FROM") || "GreenRoots <onboarding@resend.dev>";
 
 const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
   auth: { persistSession: false },
@@ -66,7 +67,7 @@ Deno.serve(async (req: Request) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "GreenRoots <onboarding@resend.dev>",
+        from: EMAIL_FROM,
         to: [to],
         subject: subject,
         html: html,
